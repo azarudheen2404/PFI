@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,13 +39,13 @@ import in.co.esquareinfo.pfi.app.District;
 import in.co.esquareinfo.pfi.app.HeaderCertificate;
 import in.co.esquareinfo.pfi.app.State;
 
-public class BlockDetails extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class BlockDetails extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private Context mContext;
     private Spinner state, district;
     private EditText blockName;
     private String txtState, txtDistrict, txtBlockName;
-    private String stateDet, districtDet, distId, stateIdDis, stdata, disdata;
+    private String stateDet, districtDet, distId, stateIdDis;
     private ImageView btnNext;
     private List<District> districtlist;
     private ArrayAdapter<District> dt;
@@ -68,7 +69,7 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         if (parent == this.state) {
-            stdata = String.valueOf(methodlist.get(state.getSelectedItemPosition()).getId());
+            txtState = String.valueOf(methodlist.get(state.getSelectedItemPosition()).getId());
             SharedPreferences pref = getApplicationContext().getSharedPreferences("pfijwt", MODE_PRIVATE);
             String stdt =pref.getString("StDt",null);
 
@@ -84,7 +85,7 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
                     String districtDet = districtdata.getString("name");
                     String distId = districtdata.getString("ID");
                     String stateIdDis = districtdata.getString("stateID");
-                    if (stateIdDis.equals(stdata) || stateIdDis.equals("-1")) {
+                    if (stateIdDis.equals(txtState)) {
                         Log.d("Districttttttt", districtDet);
                         districtlist.add(new District(distId, districtDet));
                     }
@@ -95,7 +96,7 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
                 e.printStackTrace();
             }
         } else if (parent == district) {
-            disdata = (districtlist.get(district.getSelectedItemPosition())).getDisId();
+            txtDistrict = (districtlist.get(district.getSelectedItemPosition())).getDisId();
         }
 
     }
@@ -114,15 +115,20 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
         districtlist = new ArrayList();
         st = new ArrayAdapter(mContext, R.layout.spinner_item, methodlist);
         dt = new ArrayAdapter(mContext, R.layout.spinner_item, districtlist);
+        blockName = (EditText) findViewById(R.id.bolckName);
     }
 
     private void initCallback(){
+        btnNext.setOnClickListener(this);
         state.setOnItemSelectedListener(this);
         district.setOnItemSelectedListener(this);
     }
 
     private void initSpinner(){
-
+        st.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        state.setAdapter(st);
+        dt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        district.setAdapter(dt);
     }
 
     private void stdtDetails(){
@@ -132,6 +138,10 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
                     @Override
                     public void onResponse(String response) {
                         Log.d("output",response.toString());
+                        SharedPreferences pref = getApplicationContext().getSharedPreferences("pfijwt", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("StDt",response.toString());
+                        editor.commit();
                         JSONObject att = null;
                         try {
                             att = new JSONObject(response.toString().trim());
@@ -155,7 +165,6 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
                                 districtlist.add(new District(distId, districtDet));
                                 dt.notifyDataSetChanged();
                             }
-                            List<String> yearlist = new ArrayList<String>();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -173,15 +182,7 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
                         }
                         Log.d("Error",error.toString());
                     }
-                });/*{
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> header = new HashMap<>();
-                header.put("Content-Type", "application/json");
-                header.put("pfijwt", token.toString().trim());
-                return header;
-            }
-        };*/
+                });
         stringRequest1on.setRetryPolicy(new DefaultRetryPolicy(
                 50000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -192,4 +193,49 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
+    @Override
+    public void onClick(View v) {
+        txtBlockName = blockName.getText().toString();
+
+        dashboardData();
+        Log.d("sta",txtState);
+        Log.d("dis",txtDistrict);
+        Log.d("block",txtBlockName);
+    }
+
+    private void dashboardData(){
+
+        StringRequest stringRequest;
+        stringRequest = new StringRequest(Request.Method.GET, "https://schp.popularfrontindia.org/vdpQA/services/com/block/create?Name="+txtBlockName+"&StateID="+txtState+"&DistrictID="+txtDistrict,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        Log.d("Response", response.toString());
+
+
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error instanceof NoConnectionError) {
+                            Toast.makeText(BlockDetails.this, "No Internet Connection", Toast.LENGTH_LONG).show();
+                        }
+                        Log.d("Error",error.toString());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> header = new HashMap<>();
+                header.put("Content-Type", "application/json");
+                return header;
+            }
+        };
+        Log.d("URLLLLLL",stringRequest.toString());
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+    }
 }
