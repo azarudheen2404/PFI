@@ -72,14 +72,15 @@
             </LinearLayout>
         </ScrollView>
         <ImageView
-            android:id="@+id/search"
+            android:id="@+id/next"
             android:layout_width="@dimen/half"
             android:layout_height="@dimen/half"
             android:src="@drawable/nxt_btn"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             android:contentDescription="@string/desc_next"
-            android:layout_gravity="bottom|center"/>
+            android:layout_gravity="bottom|center"
+            android:layout_margin="@dimen/normal"/>
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
