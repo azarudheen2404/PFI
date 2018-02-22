@@ -23,6 +23,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -44,12 +45,14 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
     private Context mContext;
     private Spinner state, district;
     private EditText blockName;
-    private String txtState, txtDistrict, txtBlockName;
+    private String txtBlockName;
+    private int txtState, txtDistrict;
     private String stateDet, districtDet, distId, stateIdDis;
     private ImageView btnNext;
     private List<District> districtlist;
     private ArrayAdapter<District> dt;
     private List<State> methodlist;
+    private JSONObject jsonObject;
     private ArrayAdapter<State> st;
 
     @Override
@@ -69,7 +72,7 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         if (parent == this.state) {
-            txtState = String.valueOf(methodlist.get(state.getSelectedItemPosition()).getId());
+            txtState = (methodlist.get(state.getSelectedItemPosition()).getId());
             SharedPreferences pref = getApplicationContext().getSharedPreferences("pfijwt", MODE_PRIVATE);
             String stdt =pref.getString("StDt",null);
 
@@ -85,7 +88,8 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
                     String districtDet = districtdata.getString("name");
                     String distId = districtdata.getString("ID");
                     String stateIdDis = districtdata.getString("stateID");
-                    if (stateIdDis.equals(txtState)) {
+                    int stId = Integer.parseInt(stateIdDis);
+                    if (stId == txtState) {
                         Log.d("Districttttttt", districtDet);
                         districtlist.add(new District(distId, districtDet));
                     }
@@ -96,7 +100,7 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
                 e.printStackTrace();
             }
         } else if (parent == district) {
-            txtDistrict = (districtlist.get(district.getSelectedItemPosition())).getDisId();
+            txtDistrict = Integer.parseInt((districtlist.get(district.getSelectedItemPosition())).getDisId());
         }
 
     }
@@ -116,6 +120,7 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
         st = new ArrayAdapter(mContext, R.layout.spinner_item, methodlist);
         dt = new ArrayAdapter(mContext, R.layout.spinner_item, districtlist);
         blockName = (EditText) findViewById(R.id.bolckName);
+        jsonObject = new JSONObject();
     }
 
     private void initCallback(){
@@ -196,20 +201,31 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onClick(View v) {
         txtBlockName = blockName.getText().toString();
+//        JSONObject jsonObject= new JSONObject();
+        try {
+            jsonObject.put("Name", txtBlockName);
+            jsonObject.put("DistrictID", txtDistrict);
+            jsonObject.put("StateID", txtState);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         dashboardData();
-        Log.d("sta",txtState);
+        /*Log.d("sta",txtState);
         Log.d("dis",txtDistrict);
-        Log.d("block",txtBlockName);
+        Log.d("block",txtBlockName);*/
     }
 
     private void dashboardData(){
 
-        StringRequest stringRequest;
-        stringRequest = new StringRequest(Request.Method.GET, "https://schp.popularfrontindia.org/vdpQA/services/com/block/create?Name="+txtBlockName+"&StateID="+txtState+"&DistrictID="+txtDistrict,
-                new Response.Listener<String>() {
+        String url = "https://schp.popularfrontindia.org/vdpQA/services/com/block/create";
+        Log.d("JSON",jsonObject.toString());
+        JsonObjectRequest stringRequest;
+        stringRequest = new JsonObjectRequest(Request.Method.PUT, url ,jsonObject,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(JSONObject response) {
 
                         Log.d("Response", response.toString());
 
@@ -225,14 +241,23 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
                         }
                         Log.d("Error",error.toString());
                     }
-                }) {
+                }); /*{
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> header = new HashMap<>();
                 header.put("Content-Type", "application/json");
                 return header;
             }
-        };
+
+           *//* @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("Name",txtBlockName);
+                map.put("StateID",txtState);
+                map.put("DistrictID",txtDistrict);
+                return map;
+            }*//*
+        };*/
         Log.d("URLLLLLL",stringRequest.toString());
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
