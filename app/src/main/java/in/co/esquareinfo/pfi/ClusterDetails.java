@@ -51,6 +51,7 @@ public class ClusterDetails extends AppCompatActivity implements AdapterView.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cluster_details);
+        getSupportActionBar().setTitle("Create Cluster");
 
         HeaderCertificate myHeaderClass = new HeaderCertificate(this);
         myHeaderClass.handleSSLHandshake();

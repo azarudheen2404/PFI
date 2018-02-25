@@ -50,6 +50,7 @@ public class VillageDetails extends AppCompatActivity implements AdapterView.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_village_details);
+        getSupportActionBar().setTitle("Create Village");
 
         HeaderCertificate myHeaderClass = new HeaderCertificate(this);
         myHeaderClass.handleSSLHandshake();

@@ -59,6 +59,7 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block_details);
+        getSupportActionBar().setTitle("Create Block");
 
         HeaderCertificate myHeaderClass = new HeaderCertificate(this);
         myHeaderClass.handleSSLHandshake();

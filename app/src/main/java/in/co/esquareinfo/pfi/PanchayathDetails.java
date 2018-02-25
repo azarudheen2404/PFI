@@ -53,6 +53,7 @@ public class PanchayathDetails extends AppCompatActivity implements AdapterView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_panchayath_details);
+        getSupportActionBar().setTitle("Create Panchayath");
 
         HeaderCertificate myHeaderClass = new HeaderCertificate(this);
         myHeaderClass.handleSSLHandshake();
