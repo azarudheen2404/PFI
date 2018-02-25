@@ -202,16 +202,19 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
     public void onClick(View v) {
         txtBlockName = blockName.getText().toString();
 //        JSONObject jsonObject= new JSONObject();
-        try {
-            jsonObject.put("Name", txtBlockName);
-            jsonObject.put("DistrictID", txtDistrict);
-            jsonObject.put("StateID", txtState);
+        Intent next = new Intent(mContext,ClusterDetails.class);
+        startActivity(next);
+
+       /* try {
+            jsonObject.put("name", txtBlockName);
+            jsonObject.put("districtID", txtDistrict);
+            jsonObject.put("stateID", txtState);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        dashboardData();
+        dashboardData();*/
         /*Log.d("sta",txtState);
         Log.d("dis",txtDistrict);
         Log.d("block",txtBlockName);*/
@@ -241,23 +244,7 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
                         }
                         Log.d("Error",error.toString());
                     }
-                }); /*{
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> header = new HashMap<>();
-                header.put("Content-Type", "application/json");
-                return header;
-            }
-
-           *//* @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("Name",txtBlockName);
-                map.put("StateID",txtState);
-                map.put("DistrictID",txtDistrict);
-                return map;
-            }*//*
-        };*/
+                });
         Log.d("URLLLLLL",stringRequest.toString());
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);

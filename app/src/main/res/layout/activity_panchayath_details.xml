@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.co.esquareinfo.pfi.PanchayathDetails">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/pre_secondary"
+            android:scrollbars="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/colorWhite">
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BLOCK NAME"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/blockName"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PANCHAYATH"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <EditText
+                    android:id="@+id/panchayathName"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    android:backgroundTint="@color/colorAccent"
+                    android:inputType="textCapSentences"/>
+
+            </LinearLayout>
+        </ScrollView>
+        <ImageView
+            android:id="@+id/next"
+            android:layout_width="@dimen/half"
+            android:layout_height="@dimen/half"
+            android:src="@drawable/nxt_btn"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/desc_next"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="@dimen/normal"/>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
