@@ -1,6 +1,7 @@
 package in.co.esquareinfo.pfi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -112,8 +113,11 @@ public class PanchayathDetails extends AppCompatActivity implements AdapterView.
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("JSON",jsonObject.toString());
-       // dashboardData();
+        if (panchayathName.getText().toString().length() == 0){
+            Toast.makeText(mContext, "Please fill the column", Toast.LENGTH_SHORT).show();
+        }else {
+            dashboardData();
+        }
         /*Log.d("sta",txtState);
         Log.d("dis",txtDistrict);
         Log.d("block",txtBlockName);*/
@@ -179,6 +183,9 @@ public class PanchayathDetails extends AppCompatActivity implements AdapterView.
                     public void onResponse(JSONObject response) {
 
                         Log.d("Response", response.toString());
+                        Toast.makeText(mContext, "Panchayath Created", Toast.LENGTH_SHORT).show();
+                        Intent next = new Intent(mContext,ClusterDetails.class);
+                        startActivity(next);
 
 
                     }

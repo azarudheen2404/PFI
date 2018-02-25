@@ -201,11 +201,8 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onClick(View v) {
         txtBlockName = blockName.getText().toString();
-//        JSONObject jsonObject= new JSONObject();
-        Intent next = new Intent(mContext,ClusterDetails.class);
-        startActivity(next);
 
-       /* try {
+        try {
             jsonObject.put("name", txtBlockName);
             jsonObject.put("districtID", txtDistrict);
             jsonObject.put("stateID", txtState);
@@ -214,7 +211,17 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
             e.printStackTrace();
         }
 
-        dashboardData();*/
+        Intent next = new Intent(mContext,VillageDetails.class);
+        startActivity(next);
+
+
+      /*  if (blockName.getText().toString().length() == 0){
+            Toast.makeText(mContext, "Please fill the column", Toast.LENGTH_SHORT).show();
+        }else {
+             dashboardData();
+        }*/
+
+
         /*Log.d("sta",txtState);
         Log.d("dis",txtDistrict);
         Log.d("block",txtBlockName);*/
@@ -231,6 +238,10 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
                     public void onResponse(JSONObject response) {
 
                         Log.d("Response", response.toString());
+                        Toast.makeText(mContext, "Block Created", Toast.LENGTH_SHORT).show();
+                        Intent next = new Intent(mContext,PanchayathDetails.class);
+                        startActivity(next);
+
 
 
                     }

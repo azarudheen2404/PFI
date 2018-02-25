@@ -1,6 +1,7 @@
 package in.co.esquareinfo.pfi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -112,7 +113,12 @@ public class ClusterDetails extends AppCompatActivity implements AdapterView.OnI
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("JSON",jsonObject.toString());
+
+        if (clusterName.getText().toString().length() == 0){
+            Toast.makeText(mContext, "Please fill the column", Toast.LENGTH_SHORT).show();
+        }else {
+            dashboardData();
+        }
         // dashboardData();
         /*Log.d("sta",txtState);
         Log.d("dis",txtDistrict);
@@ -171,7 +177,7 @@ public class ClusterDetails extends AppCompatActivity implements AdapterView.OnI
 
     private void dashboardData(){
 
-        String url = "https://schp.popularfrontindia.org/vdpQA/services/com/panchayath/create";
+        String url = "https://schp.popularfrontindia.org/vdpQA/services/com/cluster/create";
         Log.d("JSON",jsonObject.toString());
         JsonObjectRequest stringRequest;
         stringRequest = new JsonObjectRequest(Request.Method.PUT, url ,jsonObject,
@@ -180,6 +186,9 @@ public class ClusterDetails extends AppCompatActivity implements AdapterView.OnI
                     public void onResponse(JSONObject response) {
 
                         Log.d("Response", response.toString());
+                        Toast.makeText(mContext, "Cluster Created", Toast.LENGTH_SHORT).show();
+                        Intent next = new Intent(mContext,VillageDetails.class);
+                        startActivity(next);
 
 
                     }
