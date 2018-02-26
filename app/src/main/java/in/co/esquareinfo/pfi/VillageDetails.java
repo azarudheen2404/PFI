@@ -134,27 +134,28 @@ public class VillageDetails extends AppCompatActivity implements AdapterView.OnI
                     public void onResponse(String response) {
                         Log.d("output",response.toString());
 
-                       /* JSONObject att = null;
+                        JSONObject att = null;
                         try {
                             att = new JSONObject(response.toString().trim());
-                            String statelist = att.getString("panchayathList");
+                            String statelist = att.getString("clusterList");
                             // Log.d("State", statelist.toString().trim());
                             JSONArray state = new JSONArray(statelist.toString());
                             for (int i = 0; i < state.length(); i++) {
                                 JSONObject statedata = state.getJSONObject(i);
-                                panchId = statedata.getString("ID");
-                                panchName = statedata.getString("name");
+                                clstrId = statedata.getString("ID");
+                                clstrName = statedata.getString("name");
                                 districtId = statedata.getString("districtID");
                                 stateId = statedata.getString("stateID");
                                 blockId = statedata.getString("blockID");
-                                panchList.add(new Panchayath(panchId, panchName, stateId, districtId, blockId));
-                                pt.notifyDataSetChanged();
+                                panchId = statedata.getString("panchayathID");
+                                clusterList.add(new Cluster(clstrId, clstrName, stateId, districtId, blockId,panchId));
+                                ct.notifyDataSetChanged();
                             }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
 
-                        }*/
+                        }
                     }
                 },
 
