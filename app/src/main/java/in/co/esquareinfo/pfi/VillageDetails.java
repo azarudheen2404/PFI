@@ -107,8 +107,6 @@ public class VillageDetails extends AppCompatActivity implements AdapterView.OnI
             jsonObject.put("name", txtVillage);
             jsonObject.put("districtID", txtDistrict);
             jsonObject.put("stateID", txtState);
-            jsonObject.put("blockID", txtBlock);
-            jsonObject.put("panchayathID",txtPanchayath);
             jsonObject.put("clusterID",txtCluster);
 
         } catch (JSONException e) {
@@ -146,9 +144,7 @@ public class VillageDetails extends AppCompatActivity implements AdapterView.OnI
                                 clstrName = statedata.getString("name");
                                 districtId = statedata.getString("districtID");
                                 stateId = statedata.getString("stateID");
-                                blockId = statedata.getString("blockID");
-                                panchId = statedata.getString("panchayathID");
-                                clusterList.add(new Cluster(clstrId, clstrName, stateId, districtId, blockId,panchId));
+                                clusterList.add(new Cluster(clstrId, clstrName, stateId, districtId));
                                 ct.notifyDataSetChanged();
                             }
 

@@ -31,21 +31,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.co.esquareinfo.pfi.app.Block;
+import in.co.esquareinfo.pfi.app.District;
 import in.co.esquareinfo.pfi.app.HeaderCertificate;
 import in.co.esquareinfo.pfi.app.Panchayath;
+import in.co.esquareinfo.pfi.app.State;
 
 public class ClusterDetails extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener{
 
     private Context mContext;
-    private Spinner panchayathName;
+    private Spinner state, district;
     private EditText clusterName;
     private String txtCluster;
-    private int txtState, txtDistrict, txtBlock, txtPanchayath;
+    private int txtState, txtDistrict;
     private String blockId, stateId, districtId, blckId, panchId,panchName;
     private ImageView btnNext;
-    private List<Panchayath> panchList;
-    private ArrayAdapter<Panchayath> pt;
+    private List<District> districtlist;
+    private ArrayAdapter<District> dt;
+    private List<State> methodlist;
     private JSONObject jsonObject;
+    private ArrayAdapter<State> st;
+    private String stateDet, districtDet, distId, stateIdDis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +69,6 @@ public class ClusterDetails extends AppCompatActivity implements AdapterView.OnI
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        if (parent == panchayathName) {
-            txtDistrict = Integer.parseInt((panchList.get(panchayathName.getSelectedItemPosition())).getDistrictId());
-            txtState = Integer.parseInt((panchList.get(panchayathName.getSelectedItemPosition())).getStateId());
-            txtBlock = Integer.parseInt((panchList.get(panchayathName.getSelectedItemPosition())).getBlockId());
-            txtPanchayath = Integer.parseInt((panchList.get(panchayathName.getSelectedItemPosition())).getPanchId());
-        }
 
     }
 
@@ -81,22 +80,17 @@ public class ClusterDetails extends AppCompatActivity implements AdapterView.OnI
     private void initObjects(){
         mContext = this;
 
-        panchayathName = (Spinner) findViewById(R.id.panchayathName);
         btnNext = (ImageView) findViewById(R.id.next);
-        panchList = new ArrayList<>();
-        pt = new ArrayAdapter<Panchayath>(mContext,R.layout.spinner_item, panchList);
         clusterName = (EditText) findViewById(R.id.clusterName);
         jsonObject = new JSONObject();
     }
 
     private void initCallback(){
         btnNext.setOnClickListener(this);
-        panchayathName.setOnItemSelectedListener(this);
+
     }
 
     private void initSpinner(){
-        pt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        panchayathName.setAdapter(pt);
     }
 
 
@@ -108,8 +102,6 @@ public class ClusterDetails extends AppCompatActivity implements AdapterView.OnI
             jsonObject.put("name", txtCluster);
             jsonObject.put("districtID", txtDistrict);
             jsonObject.put("stateID", txtState);
-            jsonObject.put("blockID", txtBlock);
-            jsonObject.put("panchayathID",txtPanchayath);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -147,8 +139,6 @@ public class ClusterDetails extends AppCompatActivity implements AdapterView.OnI
                                 districtId = statedata.getString("districtID");
                                 stateId = statedata.getString("stateID");
                                 blockId = statedata.getString("blockID");
-                                panchList.add(new Panchayath(panchId, panchName, stateId, districtId, blockId));
-                                pt.notifyDataSetChanged();
                             }
 
                         } catch (JSONException e) {

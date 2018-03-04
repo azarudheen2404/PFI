@@ -24,6 +24,35 @@
                 android:background="@color/colorWhite">
 
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="STATE"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/normal"/>
+                <Spinner
+                    android:id="@+id/state"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DISTRICT"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/district"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
 
                 <TextView
                     android:layout_width="wrap_content"

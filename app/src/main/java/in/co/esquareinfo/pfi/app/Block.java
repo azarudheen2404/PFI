@@ -8,13 +8,11 @@ public class Block {
 
     private String blockId;
     private String blockName;
-    private String stateId, districtId;
 
-    public Block(String id, String name, String stId, String dtId) {
+    public Block(String id, String name) {
         blockId = id;
         blockName = name;
-        stateId = stId;
-        districtId = dtId;
+
     }
 
     public String getBlockName() {
@@ -31,22 +29,6 @@ public class Block {
 
     public void setBlockId(String blckId) {
         blockId = blckId;
-    }
-
-    public String getStateId() {
-        return stateId;
-    }
-
-    public void setStateId(String stId) {
-        stateId = stId;
-    }
-
-    public String getDistrictId() {
-        return districtId;
-    }
-
-    public void setDistrictId(String dtId) {
-        districtId = dtId;
     }
 
     public String toString() {

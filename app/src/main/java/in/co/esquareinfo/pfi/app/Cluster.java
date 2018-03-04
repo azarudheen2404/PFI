@@ -9,13 +9,11 @@ public class Cluster {
     private String clusterId, clusterName;
     private String stateId, districtId,blockId,panchId;
 
-    public Cluster(String id, String name, String stId, String dtId, String blId, String pnchId) {
+    public Cluster(String id, String name, String stId, String dtId) {
         clusterId = id;
         clusterName = name;
         stateId = stId;
         districtId = dtId;
-        blockId = blId;
-        panchId = pnchId;
     }
 
     public String getClusterName() {
