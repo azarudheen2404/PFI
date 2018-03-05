@@ -29,21 +29,32 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.co.esquareinfo.pfi.app.Block;
 import in.co.esquareinfo.pfi.app.Cluster;
+import in.co.esquareinfo.pfi.app.District;
 import in.co.esquareinfo.pfi.app.HeaderCertificate;
 import in.co.esquareinfo.pfi.app.Panchayath;
+import in.co.esquareinfo.pfi.app.State;
 
 public class VillageDetails extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private Context mContext;
-    private Spinner clusterName;
+    private Spinner blockName;
+    private Spinner state, district;
+    private Spinner panchayathName;
     private EditText villageName;
     private String txtVillage;
-    private int txtState, txtDistrict, txtBlock, txtPanchayath, txtCluster;
-    private String blockId, stateId, districtId, blckId, panchId,clstrId, clstrName;
+    private int txtState, txtDistrict, txtBlock, txtPanchayath;
+    private String blockId, stateId, districtId, blckId, panchId;
     private ImageView btnNext;
-    private List<Cluster> clusterList;
-    private ArrayAdapter<Cluster> ct;
+    private List<District> districtlist;
+    private ArrayAdapter<District> dt;
+    private List<State> methodlist;
+    private ArrayAdapter<State> st;
+    private List<Block> blockList;
+    private ArrayAdapter<Block> bt;
+    private List<Panchayath> panchayathList;
+    private ArrayAdapter<Panchayath> pt;
     private JSONObject jsonObject;
 
     @Override
@@ -56,7 +67,7 @@ public class VillageDetails extends AppCompatActivity implements AdapterView.OnI
         myHeaderClass.handleSSLHandshake();
         initObjects();
         initCallback();
-        blockDetails();
+       // blockDetails();
         initSpinner();
     }
 
@@ -79,23 +90,41 @@ public class VillageDetails extends AppCompatActivity implements AdapterView.OnI
 
     private void initObjects(){
         mContext = this;
-
-        clusterName = (Spinner) findViewById(R.id.clusterName);
+        state = (Spinner) findViewById(R.id.state);
+        district = (Spinner) findViewById(R.id.district);
         btnNext = (ImageView) findViewById(R.id.next);
-        clusterList = new ArrayList<>();
-        ct = new ArrayAdapter<Cluster>(mContext,R.layout.spinner_item, clusterList);
+        methodlist = new ArrayList();
+        districtlist = new ArrayList();
+        st = new ArrayAdapter(mContext, R.layout.spinner_item, methodlist);
+        dt = new ArrayAdapter(mContext, R.layout.spinner_item, districtlist);
+
+        panchayathName = (Spinner) findViewById(R.id.panchayathName);
+        btnNext = (ImageView) findViewById(R.id.next);
+        blockList = new ArrayList<>();
+        bt = new ArrayAdapter<Block>(mContext,R.layout.spinner_item, blockList);
+        panchayathList = new ArrayList<>();
+        pt = new ArrayAdapter<Panchayath>(mContext,R.layout.spinner_item, panchayathList);
         villageName = (EditText) findViewById(R.id.villageName);
         jsonObject = new JSONObject();
     }
 
     private void initCallback(){
         btnNext.setOnClickListener(this);
-        clusterName.setOnItemSelectedListener(this);
+        state.setOnItemSelectedListener(this);
+        district.setOnItemSelectedListener(this);
+        blockName.setOnItemSelectedListener(this);
+        panchayathName.setOnItemSelectedListener(this);
     }
 
     private void initSpinner(){
-        ct.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        clusterName.setAdapter(ct);
+        st.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        state.setAdapter(st);
+        dt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        district.setAdapter(dt);
+        bt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        blockName.setAdapter(bt);
+        pt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        panchayathName.setAdapter(pt);
     }
 
 
@@ -107,7 +136,6 @@ public class VillageDetails extends AppCompatActivity implements AdapterView.OnI
             jsonObject.put("name", txtVillage);
             jsonObject.put("districtID", txtDistrict);
             jsonObject.put("stateID", txtState);
-            jsonObject.put("clusterID",txtCluster);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -124,7 +152,7 @@ public class VillageDetails extends AppCompatActivity implements AdapterView.OnI
         Log.d("block",txtBlockName);*/
     }
 
-    private void blockDetails(){
+  /*  private void blockDetails(){
         StringRequest stringRequest1on;
         stringRequest1on = new StringRequest(Request.Method.GET, "https://schp.popularfrontindia.org/vdpQA/services/com/cluster/getAll",
                 new Response.Listener<String>() {
@@ -171,7 +199,7 @@ public class VillageDetails extends AppCompatActivity implements AdapterView.OnI
 
         RequestQueue requestQueue = Volley.newRequestQueue(VillageDetails.this);
         requestQueue.add(stringRequest1on);
-    }
+    }*/
 
     private void dashboardData(){
 

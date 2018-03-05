@@ -212,7 +212,7 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
             e.printStackTrace();
         }
 
-        Intent next = new Intent(mContext,PanchayathDetails.class);
+        Intent next = new Intent(mContext,ClusterDetails.class);
         startActivity(next);
 
 
