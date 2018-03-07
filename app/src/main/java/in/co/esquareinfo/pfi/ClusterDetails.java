@@ -152,13 +152,9 @@ public class ClusterDetails extends AppCompatActivity implements AdapterView.OnI
         if (clusterName.getText().toString().length() == 0){
             Toast.makeText(mContext, "Please fill the column", Toast.LENGTH_SHORT).show();
         }else {
-           // dashboardData();
-            Log.d("ClusterDetails",jsonObject.toString());
+            dashboardData();
+
         }
-        // dashboardData();
-        /*Log.d("sta",txtState);
-        Log.d("dis",txtDistrict);
-        Log.d("block",txtBlockName);*/
     }
 
     private void stdtDetails(){
@@ -197,54 +193,6 @@ public class ClusterDetails extends AppCompatActivity implements AdapterView.OnI
 
     }
 
-    private void blockDetails(){
-        StringRequest stringRequest1on;
-        stringRequest1on = new StringRequest(Request.Method.GET, "https://schp.popularfrontindia.org/vdpQA/services/com/panchayath/getAll",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("output",response.toString());
-
-                        JSONObject att = null;
-                        try {
-                            att = new JSONObject(response.toString().trim());
-                            String statelist = att.getString("panchayathList");
-                            // Log.d("State", statelist.toString().trim());
-                            JSONArray state = new JSONArray(statelist.toString());
-                            for (int i = 0; i < state.length(); i++) {
-                                JSONObject statedata = state.getJSONObject(i);
-                                /*panchId = statedata.getString("ID");
-                                panchName = statedata.getString("name");
-                                districtId = statedata.getString("districtID");
-                                stateId = statedata.getString("stateID");
-                                blockId = statedata.getString("blockID");*/
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-
-                        }
-                    }
-                },
-
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error instanceof NoConnectionError) {
-                            Toast.makeText(ClusterDetails.this, "No Internet Connection", Toast.LENGTH_LONG).show();
-                        }
-                        Log.d("Error",error.toString());
-                    }
-                });
-        stringRequest1on.setRetryPolicy(new DefaultRetryPolicy(
-                50000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-        RequestQueue requestQueue = Volley.newRequestQueue(ClusterDetails.this);
-        requestQueue.add(stringRequest1on);
-    }
-
     private void dashboardData(){
 
         String url = "https://schp.popularfrontindia.org/vdpQA/services/com/cluster/create";
@@ -258,9 +206,6 @@ public class ClusterDetails extends AppCompatActivity implements AdapterView.OnI
                         Log.d("Response", response.toString());
                         Toast.makeText(mContext, "Cluster Created", Toast.LENGTH_SHORT).show();
                         Intent next = new Intent(mContext,VillageDetails.class);
-                        startActivity(next);
-
-
                     }
                 },
 

@@ -212,20 +212,12 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
             e.printStackTrace();
         }
 
-        Intent next = new Intent(mContext,ClusterDetails.class);
-        startActivity(next);
-
-
-      /*  if (blockName.getText().toString().length() == 0){
+        if (blockName.getText().toString().length() == 0){
             Toast.makeText(mContext, "Please fill the column", Toast.LENGTH_SHORT).show();
         }else {
              dashboardData();
-        }*/
+        }
 
-
-        /*Log.d("sta",txtState);
-        Log.d("dis",txtDistrict);
-        Log.d("block",txtBlockName);*/
     }
 
     private void dashboardData(){

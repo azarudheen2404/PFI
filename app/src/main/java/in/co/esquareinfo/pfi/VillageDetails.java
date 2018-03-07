@@ -1,6 +1,8 @@
 package in.co.esquareinfo.pfi;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,9 +45,8 @@ public class VillageDetails extends AppCompatActivity implements AdapterView.OnI
     private Spinner state, district;
     private Spinner panchayathName;
     private EditText villageName;
-    private String txtVillage;
+    private String txtVillage,panchId,panchName;
     private int txtState, txtDistrict, txtBlock, txtPanchayath;
-    private String blockId, stateId, districtId, blckId, panchId;
     private ImageView btnNext;
     private List<District> districtlist;
     private ArrayAdapter<District> dt;
@@ -56,6 +57,8 @@ public class VillageDetails extends AppCompatActivity implements AdapterView.OnI
     private List<Panchayath> panchayathList;
     private ArrayAdapter<Panchayath> pt;
     private JSONObject jsonObject;
+    private String blockId, stateId, districtId, blckName;
+    private String stateDet, districtDet, distId, stateIdDis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,42 +70,134 @@ public class VillageDetails extends AppCompatActivity implements AdapterView.OnI
         myHeaderClass.handleSSLHandshake();
         initObjects();
         initCallback();
-       // blockDetails();
+        stdtDetails();
+        blockDetails();
+        panchayathDetails();
         initSpinner();
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-/*
-        if (parent == panchayathName) {
-            txtDistrict = Integer.parseInt((panchList.get(panchayathName.getSelectedItemPosition())).getDistrictId());
-            txtState = Integer.parseInt((panchList.get(panchayathName.getSelectedItemPosition())).getStateId());
-            txtBlock = Integer.parseInt((panchList.get(panchayathName.getSelectedItemPosition())).getBlockId());
-            txtPanchayath = Integer.parseInt((panchList.get(panchayathName.getSelectedItemPosition())).getPanchId());
-        }*/
+        if (parent == this.state) {
+            txtState = (methodlist.get(state.getSelectedItemPosition()).getId());
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("pfijwt", MODE_PRIVATE);
+            String stdt =pref.getString("StDt",null);
 
+            districtlist.clear();
+            JSONObject att = null;
+            try {
+                att= new JSONObject(stdt.toString().trim());
+                String distlist = att.getString("districtList");
+                Log.d("District", distlist.toString().trim());
+                JSONArray district = new JSONArray(distlist.toString());
+                for (int i = 0; i < district.length(); i++) {
+                    JSONObject districtdata = district.getJSONObject(i);
+                    String districtDet = districtdata.getString("name");
+                    String distId = districtdata.getString("ID");
+                    String stateIdDis = districtdata.getString("stateID");
+                    int stId = Integer.parseInt(stateIdDis);
+                    if (stId == txtState) {
+                        Log.d("Districttttttt", districtDet);
+                        districtlist.add(new District(distId, districtDet));
+                    }
+                    dt.notifyDataSetChanged();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (parent == district) {
+            txtDistrict = Integer.parseInt((districtlist.get(district.getSelectedItemPosition())).getDisId());
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("pfijwt", MODE_PRIVATE);
+            String stdt =pref.getString("BtDetVill",null);
+
+            blockList.clear();
+            JSONObject att = null;
+            try {
+
+                att= new JSONObject(stdt.toString().trim());
+                String distlist = att.getString("blockList");
+                Log.d("District", distlist.toString().trim());
+                JSONArray district = new JSONArray(distlist.toString());
+                for (int i = 0; i < district.length(); i++) {
+                    JSONObject districtdata = district.getJSONObject(i);
+                    String blockName = districtdata.getString("name");
+                    String blckId = districtdata.getString("ID");
+                    String disIdDblck = districtdata.getString("districtID");
+                    int blId = Integer.parseInt(disIdDblck);
+                    if (blId == txtDistrict) {
+                        Log.d("Districttttttt", blckId);
+                        blockList.add(new Block(blckId, blockName));
+                    }
+                    bt.notifyDataSetChanged();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (parent == blockName) {
+            txtBlock = Integer.parseInt((blockList.get(blockName.getSelectedItemPosition())).getBlockId());
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("pfijwt", MODE_PRIVATE);
+            String stdt =pref.getString("PanDetVill",null);
+
+            panchayathList.clear();
+            JSONObject att = null;
+            try {
+
+                att= new JSONObject(stdt.toString().trim());
+                String distlist = att.getString("panchayathList");
+                Log.d("District", distlist.toString().trim());
+                JSONArray district = new JSONArray(distlist.toString());
+                for (int i = 0; i < district.length(); i++) {
+                    JSONObject districtdata = district.getJSONObject(i);
+
+                    String panchNameSp = districtdata.getString("name");
+                    String panchIdSp = districtdata.getString("ID");
+                    String blckIdDPanch = districtdata.getString("blockID");
+                    int pnId = Integer.parseInt(blckIdDPanch);
+                    if (pnId == txtBlock) {
+                        panchayathList.add(new Panchayath(panchIdSp, panchNameSp));
+                    }
+                    pt.notifyDataSetChanged();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else if (parent == panchayathName) {
+
+            txtPanchayath = Integer.parseInt((panchayathList.get(panchayathName.getSelectedItemPosition())).getPanchId());
+        }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+        if (parent == state){
+            txtState = 0;
+        }else if (parent == district) {
+            txtDistrict = 0;
+        }else if (parent == blockName) {
+            txtBlock = 0;
+        }else if (parent == panchayathName){
+            txtPanchayath = 0;
+        }
     }
 
     private void initObjects(){
         mContext = this;
         state = (Spinner) findViewById(R.id.state);
         district = (Spinner) findViewById(R.id.district);
+        blockName = (Spinner) findViewById(R.id.blockName);
+        panchayathName = (Spinner) findViewById(R.id.panchayathName);
         btnNext = (ImageView) findViewById(R.id.next);
         methodlist = new ArrayList();
         districtlist = new ArrayList();
+        blockList = new ArrayList<>();
+        panchayathList = new ArrayList<>();
         st = new ArrayAdapter(mContext, R.layout.spinner_item, methodlist);
         dt = new ArrayAdapter(mContext, R.layout.spinner_item, districtlist);
-
-        panchayathName = (Spinner) findViewById(R.id.panchayathName);
-        btnNext = (ImageView) findViewById(R.id.next);
-        blockList = new ArrayList<>();
         bt = new ArrayAdapter<Block>(mContext,R.layout.spinner_item, blockList);
-        panchayathList = new ArrayList<>();
         pt = new ArrayAdapter<Panchayath>(mContext,R.layout.spinner_item, panchayathList);
         villageName = (EditText) findViewById(R.id.villageName);
         jsonObject = new JSONObject();
@@ -136,23 +231,198 @@ public class VillageDetails extends AppCompatActivity implements AdapterView.OnI
             jsonObject.put("name", txtVillage);
             jsonObject.put("districtID", txtDistrict);
             jsonObject.put("stateID", txtState);
+            jsonObject.put("blockID", txtBlock);
+            jsonObject.put("Panchayath", txtPanchayath);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (villageName.getText().toString().length() == 0){
+        if (villageName.getText().toString().length() == 0 || txtState ==0 || txtDistrict ==0
+                || txtBlock==0|| txtPanchayath==0){
             Toast.makeText(mContext, "Please fill the column", Toast.LENGTH_SHORT).show();
         }else {
-            dashboardData();
+           dashboardData();
+
         }
-     //   Log.d("JSON",jsonObject.toString());
-        // dashboardData();
-        /*Log.d("sta",txtState);
-        Log.d("dis",txtDistrict);
-        Log.d("block",txtBlockName);*/
+
     }
 
-  /*  private void blockDetails(){
+    private void stdtDetails(){
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("pfijwt", MODE_PRIVATE);
+        String stdt =pref.getString("StDt",null);
+
+        JSONObject att = null;
+        try {
+            att = new JSONObject(stdt.toString().trim());
+            String statelist = att.getString("stateList");
+            Log.d("State", statelist.toString().trim());
+            JSONArray state = new JSONArray(statelist.toString());
+            for (int i = 0; i < state.length(); i++) {
+                JSONObject statedata = state.getJSONObject(i);
+                stateDet = statedata.getString("name");
+                methodlist.add(new State(Integer.parseInt(statedata.getString("ID")), stateDet));
+                st.notifyDataSetChanged();
+            }
+            String distlist = att.getString("districtList");
+            Log.d("District", distlist.toString().trim());
+            JSONArray district = new JSONArray(distlist.toString());
+            for (int j = 0; j < district.length(); j++) {
+                JSONObject districtdata = district.getJSONObject(j);
+                districtDet = districtdata.getString("name");
+                distId = districtdata.getString("ID");
+                stateIdDis = districtdata.getString("stateID");
+                districtlist.add(new District(distId, districtDet));
+                dt.notifyDataSetChanged();
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+
+    }
+
+    private void blockDetails(){
+        StringRequest stringRequest1on;
+        stringRequest1on = new StringRequest(Request.Method.GET, "https://schp.popularfrontindia.org/vdpQA/services/com/block/getAll",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("output",response.toString());
+
+                        SharedPreferences pref = getApplicationContext().getSharedPreferences("pfijwt", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("BtDetVill",response.toString());
+                        editor.commit();
+
+                        JSONObject att = null;
+                        try {
+                            att = new JSONObject(response.toString().trim());
+                            String statelist = att.getString("blockList");
+                            // Log.d("State", statelist.toString().trim());
+                            JSONArray state = new JSONArray(statelist.toString());
+                            for (int i = 0; i < state.length(); i++) {
+                                JSONObject statedata = state.getJSONObject(i);
+                                blockId = statedata.getString("ID");
+                                blckName = statedata.getString("name");
+                                districtId = statedata.getString("districtID");
+                                stateId = statedata.getString("stateID");
+                                blockList.add(new Block(blockId, blckName));
+                                bt.notifyDataSetChanged();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error instanceof NoConnectionError) {
+                            Toast.makeText(VillageDetails.this, "No Internet Connection", Toast.LENGTH_LONG).show();
+                        }
+                        Log.d("Error",error.toString());
+                    }
+                });
+        stringRequest1on.setRetryPolicy(new DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(VillageDetails.this);
+        requestQueue.add(stringRequest1on);
+    }
+
+    private void panchayathDetails(){
+        StringRequest stringRequest1on;
+        stringRequest1on = new StringRequest(Request.Method.GET, "https://schp.popularfrontindia.org/vdpQA/services/com/panchayath/getAll",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("outputpanchayath",response.toString());
+                        SharedPreferences pref = getApplicationContext().getSharedPreferences("pfijwt", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("PanDetVill",response.toString());
+                        editor.commit();
+
+                        JSONObject att = null;
+                        try {
+                            att = new JSONObject(response.toString().trim());
+                            String statelist = att.getString("panchayathList");
+                            // Log.d("State", statelist.toString().trim());
+                            JSONArray state = new JSONArray(statelist.toString());
+                            for (int i = 0; i < state.length(); i++) {
+                                JSONObject statedata = state.getJSONObject(i);
+                                panchId = statedata.getString("ID");
+                                panchName = statedata.getString("name");
+                                blockId = statedata.getString("blockID");
+                                panchayathList.add(new Panchayath(panchId, panchName));
+                                pt.notifyDataSetChanged();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error instanceof NoConnectionError) {
+                            Toast.makeText(VillageDetails.this, "No Internet Connection", Toast.LENGTH_LONG).show();
+                        }
+                        Log.d("Error",error.toString());
+                    }
+                });
+        stringRequest1on.setRetryPolicy(new DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(VillageDetails.this);
+        requestQueue.add(stringRequest1on);
+    }
+
+    private void dashboardData(){
+
+        String url = "https://schp.popularfrontindia.org/vdpQA/services/com/village/create";
+        Log.d("JSON",jsonObject.toString());
+        JsonObjectRequest stringRequest;
+        stringRequest = new JsonObjectRequest(Request.Method.PUT, url ,jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        Log.d("Response", response.toString());
+                        Toast.makeText(mContext, "Village Created", Toast.LENGTH_SHORT).show();
+                        Intent next = new Intent(mContext,BlockDetails.class);
+
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error instanceof NoConnectionError) {
+                            Toast.makeText(VillageDetails.this, "No Internet Connection", Toast.LENGTH_LONG).show();
+                        }
+                        Log.d("Error",error.toString());
+                    }
+                });
+        Log.d("URLLLLLL",stringRequest.toString());
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+    }
+
+
+    /*  private void blockDetails(){
         StringRequest stringRequest1on;
         stringRequest1on = new StringRequest(Request.Method.GET, "https://schp.popularfrontindia.org/vdpQA/services/com/cluster/getAll",
                 new Response.Listener<String>() {
@@ -201,34 +471,4 @@ public class VillageDetails extends AppCompatActivity implements AdapterView.OnI
         requestQueue.add(stringRequest1on);
     }*/
 
-    private void dashboardData(){
-
-        String url = "https://schp.popularfrontindia.org/vdpQA/services/com/village/create";
-        Log.d("JSON",jsonObject.toString());
-        JsonObjectRequest stringRequest;
-        stringRequest = new JsonObjectRequest(Request.Method.PUT, url ,jsonObject,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        Log.d("Response", response.toString());
-
-
-                    }
-                },
-
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error instanceof NoConnectionError) {
-                            Toast.makeText(VillageDetails.this, "No Internet Connection", Toast.LENGTH_LONG).show();
-                        }
-                        Log.d("Error",error.toString());
-                    }
-                });
-        Log.d("URLLLLLL",stringRequest.toString());
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-
-    }
 }

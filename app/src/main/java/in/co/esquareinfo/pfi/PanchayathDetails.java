@@ -193,12 +193,9 @@ public class PanchayathDetails extends AppCompatActivity implements AdapterView.
         if (panchayathName.getText().toString().length() == 0){
             Toast.makeText(mContext, "Please fill the column", Toast.LENGTH_SHORT).show();
         }else {
-           // dashboardData();
-            Log.d("output",jsonObject.toString());
+            dashboardData();
         }
-        /*Log.d("sta",txtState);
-        Log.d("dis",txtDistrict);
-        Log.d("block",txtBlockName);*/
+
     }
 
     private void stdtDetails(){
@@ -305,8 +302,6 @@ public class PanchayathDetails extends AppCompatActivity implements AdapterView.
                         Toast.makeText(mContext, "Panchayath Created", Toast.LENGTH_SHORT).show();
                         Intent next = new Intent(mContext,ClusterDetails.class);
                         startActivity(next);
-
-
                     }
                 },
 
