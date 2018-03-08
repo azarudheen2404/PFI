@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.co.esquareinfo.pfi.Survey">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/pre_secondary"
+            android:scrollbars="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Village Name"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/villageName"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Family Name"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <EditText
+                    android:id="@+id/familyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    android:backgroundTint="@color/colorAccent"
+                    android:inputType="textCapSentences"
+                    android:maxLength="200"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    android:backgroundTint="@color/colorAccent"
+                    android:inputType="textCapSentences"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ration Card"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/normal"/>
+                <Spinner
+                    android:id="@+id/rationCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Electricity"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/electricity"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Average Monthly Income"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <EditText
+                    android:id="@+id/avgMnIncome"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    android:backgroundTint="@color/colorAccent"
+                    android:inputType="number"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Average Monthly Expense"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <EditText
+                    android:id="@+id/avgMnExpense"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    android:backgroundTint="@color/colorAccent"
+                    android:inputType="number"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Drinking Water Source"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/drnkWtrSrc"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Toilet"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/toilet"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Health Care"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/healthCare"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Asha Worker Coming"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/ashaWorkerComing"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Food getting from Anganwadi"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/foodFrmAnganwadi"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="House building type"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/houseType"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="House ownership"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/houseOwrnership"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Number of vehicles"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <EditText
+                    android:id="@+id/noOfVehicles"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    android:backgroundTint="@color/colorAccent"
+                    android:inputType="number"
+                    android:maxLength="2"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Type of vehicles"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <EditText
+                    android:id="@+id/typeOfVehicle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    android:backgroundTint="@color/colorAccent"
+                    android:inputType="textCapSentences"
+                    android:maxLength="100"
+                    android:hint="@string/hint_type_vehicle"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cooking Source"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/cookingBy"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Land owned"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/landOwned"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rehab beneficial"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/rehabBeneficial"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Children started school"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/childStartedSchool"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Getting free Remedial Coaching"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/gotRemedialCoach"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Free medical care"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/freeMedicalCare"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Awareness about government schemes"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/govSchemes"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Attention on child education"
+                    android:textSize="@dimen/primary_txt"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/pre_secondary"/>
+                <Spinner
+                    android:id="@+id/atnOnChildEdu"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/half"
+                    android:layout_marginTop="@dimen/extra_lite"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:backgroundTint="@color/colorAccent" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/vasubmit"
+            android:layout_width="@dimen/promotion"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBrand"
+            android:text="Save"
+            android:textSize="20dp"
+            android:textColor="#FFF"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="@dimen/normal"/>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

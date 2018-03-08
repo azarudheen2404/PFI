@@ -6,4 +6,5 @@
     <color name="textHint">#CFD8DC</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBackground">#F5F5F5</color>
+    <color name="colorBrand">#5CB85C</color>
 </resources>

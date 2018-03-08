@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".PanchayathDetails" />
         <activity android:name=".ClusterDetails" />
-        <activity android:name=".VillageDetails"></activity>
+        <activity android:name=".VillageDetails" />
+        <activity android:name=".Survey"></activity>
     </application>
 
 </manifest>
