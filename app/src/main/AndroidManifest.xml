@@ -21,7 +21,8 @@
         <activity android:name=".PanchayathDetails" />
         <activity android:name=".ClusterDetails" />
         <activity android:name=".VillageDetails" />
-        <activity android:name=".Survey"></activity>
+        <activity android:name=".Survey" />
+        <activity android:name=".PersonDetails"></activity>
     </application>
 
 </manifest>
