@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.co.esquareinfo.pfi.Selection"
+    android:orientation="vertical">
+
+
+    <Button
+        android:id="@+id/survey"
+        android:layout_width="@dimen/shop"
+        android:layout_height="wrap_content"
+        android:text="start survey"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/upload"
+        android:layout_width="@dimen/shop"
+        android:layout_height="wrap_content"
+        android:text="upload"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/refresh"
+        android:layout_width="@dimen/shop"
+        android:layout_height="wrap_content"
+        android:text="refresh lookup"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"/>
+
+
+</LinearLayout>

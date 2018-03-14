@@ -138,19 +138,12 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void stdtDetails(){
-        StringRequest stringRequest1on;
-        stringRequest1on = new StringRequest(Request.Method.GET, "https://schp.popularfrontindia.org/vdpQA/services/com/lookup/getAll",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("output",response.toString());
+
                         SharedPreferences pref = getApplicationContext().getSharedPreferences("pfijwt", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = pref.edit();
-                        editor.putString("StDt",response.toString());
-                        editor.commit();
+                        String stdt =pref.getString("StDt",null);
                         JSONObject att = null;
                         try {
-                            att = new JSONObject(response.toString().trim());
+                            att = new JSONObject(stdt.toString().trim());
                             String statelist = att.getString("stateList");
                             Log.d("State", statelist.toString().trim());
                             JSONArray state = new JSONArray(statelist.toString());
@@ -177,25 +170,6 @@ public class BlockDetails extends AppCompatActivity implements AdapterView.OnIte
            /* Intent nostation = new Intent(UserSearchBus.this, Selection.class);
             startActivity(nostation);*/
                         }
-                    }
-                },
-
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error instanceof NoConnectionError) {
-                            Toast.makeText(BlockDetails.this, "No Internet Connection", Toast.LENGTH_LONG).show();
-                        }
-                        Log.d("Error",error.toString());
-                    }
-                });
-        stringRequest1on.setRetryPolicy(new DefaultRetryPolicy(
-                50000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-        RequestQueue requestQueue = Volley.newRequestQueue(BlockDetails.this);
-        requestQueue.add(stringRequest1on);
     }
 
 

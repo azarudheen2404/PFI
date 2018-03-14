@@ -392,7 +392,7 @@
         </ScrollView>
 
         <Button
-            android:id="@+id/vasubmit"
+            android:id="@+id/submit"
             android:layout_width="@dimen/promotion"
             android:layout_height="wrap_content"
             android:background="@color/colorBrand"
