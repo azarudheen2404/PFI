@@ -36,9 +36,9 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
     private String villName,villId;
     private List<Village> villageList;
     private ArrayAdapter<Village> vl;
-    private String ranName,ranId,keyYN,valueYN,waterName,waterKey;
-    private List<KeyValue> rationList,ynList,waterList;
-    private ArrayAdapter<KeyValue> rc,yn,wt;
+    private String ranName,ranId,keyYN,valueYN,waterName,waterKey,toiletKey,toiletValue,healthKey,healthValue,ashaWorKey,ashaWrkValue,foodKey,foodValue,houseKey,houseValue;
+    private List<KeyValue> rationList,ynList,waterList,toiletList,healthList,ashaWorkList,foodList,houseList;
+    private ArrayAdapter<KeyValue> rc,yn,wt,tt,hh,aw,fd,he;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,30 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
 
             txtRationCard = rationList.get(rationCard.getSelectedItemPosition()).getRationId();
             Log.d("ration", String.valueOf(txtRationCard));
+        }else if (parent == electricity) {
+
+            txtElectricity = ynList.get(electricity.getSelectedItemPosition()).getRationId();
+            Log.d("electricity", String.valueOf(txtElectricity));
+        }else if (parent == drinkingWater) {
+
+            txtDrinkingWater = waterList.get(drinkingWater.getSelectedItemPosition()).getRationId();
+
+        }else if (parent == toilet) {
+
+            txtToilet = toiletList.get(toilet.getSelectedItemPosition()).getRationId();
+
+        }else if (parent == electricity) {
+
+            txtElectricity = ynList.get(electricity.getSelectedItemPosition()).getRationId();
+            Log.d("electricity", String.valueOf(txtElectricity));
+        }else if (parent == electricity) {
+
+            txtElectricity = ynList.get(electricity.getSelectedItemPosition()).getRationId();
+            Log.d("electricity", String.valueOf(txtElectricity));
+        }else if (parent == electricity) {
+
+            txtElectricity = ynList.get(electricity.getSelectedItemPosition()).getRationId();
+            Log.d("electricity", String.valueOf(txtElectricity));
         }else if (parent == electricity) {
 
             txtElectricity = ynList.get(electricity.getSelectedItemPosition()).getRationId();
@@ -101,10 +125,25 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
         wt = new ArrayAdapter(mContext, R.layout.spinner_item, waterList);
 
         toilet = (Spinner) findViewById(R.id.toilet);
+        toiletList = new ArrayList();
+        tt = new ArrayAdapter(mContext, R.layout.spinner_item, toiletList);
+
         healthCare = (Spinner) findViewById(R.id.healthCare);
+        healthList = new ArrayList();
+        hh = new ArrayAdapter(mContext, R.layout.spinner_item, healthList);
+
         ashaWorker = (Spinner) findViewById(R.id.ashaWorkerComing);
+        ashaWorkList = new ArrayList();
+        aw = new ArrayAdapter(mContext, R.layout.spinner_item, ashaWorkList);
+
         foodFromAnganwadi = (Spinner) findViewById(R.id.foodFrmAnganwadi);
+        foodList = new ArrayList();
+        fd = new ArrayAdapter(mContext, R.layout.spinner_item, foodList);
+
         houseType = (Spinner) findViewById(R.id.houseType);
+        houseList = new ArrayList();
+        he = new ArrayAdapter(mContext, R.layout.spinner_item, houseList);
+
         houseOwnership = (Spinner) findViewById(R.id.houseOwrnership);
         cookingBy = (Spinner) findViewById(R.id.cookingBy);
         landOwned = (Spinner) findViewById(R.id.landOwned);
@@ -121,6 +160,12 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
         villageName.setOnItemSelectedListener(this);
         rationCard.setOnItemSelectedListener(this);
         electricity.setOnItemSelectedListener(this);
+        drinkingWater.setOnItemSelectedListener(this);
+        toilet.setOnItemSelectedListener(this);
+        healthCare.setOnItemSelectedListener(this);
+        ashaWorker.setOnItemSelectedListener(this);
+        foodFromAnganwadi.setOnItemSelectedListener(this);
+        houseType.setOnItemSelectedListener(this);
 
     }
 
@@ -133,6 +178,24 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
 
         yn.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         electricity.setAdapter(yn);
+
+        wt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        drinkingWater.setAdapter(wt);
+
+        tt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        toilet.setAdapter(tt);
+
+        hh.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        healthCare.setAdapter(hh);
+
+        aw.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ashaWorker.setAdapter(aw);
+
+        fd.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        foodFromAnganwadi.setAdapter(fd);
+
+        he.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        houseType.setAdapter(he);
     }
 
     private void villageDetails(){
@@ -170,9 +233,9 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
             // Log.d("State", statelist.toString().trim());
             JSONArray ration = new JSONArray(rationCardList.toString());
             for (int i = 0; i < ration.length(); i++) {
-                JSONObject statedata = ration.getJSONObject(i);
-                ranId = statedata.getString("key");
-                ranName = statedata.getString("value");
+                JSONObject rationdata = ration.getJSONObject(i);
+                ranId = rationdata.getString("key");
+                ranName = rationdata.getString("value");
                 rationList.add(new KeyValue(ranId, ranName));
                 rc.notifyDataSetChanged();
             }
@@ -181,11 +244,22 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
             // Log.d("State", statelist.toString().trim());
             JSONArray yN = new JSONArray(yNList.toString());
             for (int i = 0; i < yN.length(); i++) {
-                JSONObject statedata = yN.getJSONObject(i);
-                keyYN = statedata.getString("key");
-                valueYN = statedata.getString("value");
+                JSONObject electricitydata = yN.getJSONObject(i);
+                keyYN = electricitydata.getString("key");
+                valueYN = electricitydata.getString("value");
                 ynList.add(new KeyValue(keyYN, valueYN));
                 yn.notifyDataSetChanged();
+            }
+
+            String wtList = spinnerData.getString("waterSourceType");
+            // Log.d("State", statelist.toString().trim());
+            JSONArray water = new JSONArray(yNList.toString());
+            for (int i = 0; i < water.length(); i++) {
+                JSONObject waterdata = water.getJSONObject(i);
+                waterKey = waterdata.getString("key");
+                waterName = waterdata.getString("value");
+                waterList.add(new KeyValue(waterKey, waterName));
+                wt.notifyDataSetChanged();
             }
 
 
