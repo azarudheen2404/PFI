@@ -36,9 +36,12 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
     private String villName,villId;
     private List<Village> villageList;
     private ArrayAdapter<Village> vl;
-    private String ranName,ranId,keyYN,valueYN,waterName,waterKey,toiletKey,toiletValue,healthKey,healthValue,ashaWorKey,ashaWrkValue,foodKey,foodValue,houseKey,houseValue;
+    private String ranName,ranId,keyYN,valueYN,waterName,waterKey,toiletKey,toiletValue,healthKey,healthValue,ashaWrkKey,ashaWrkValue,foodKey,foodValue,houseKey,houseValue;
     private List<KeyValue> rationList,ynList,waterList,toiletList,healthList,ashaWorkList,foodList,houseList;
     private ArrayAdapter<KeyValue> rc,yn,wt,tt,hh,aw,fd,he;
+    private String houseOwnKey,houseOwnValue,cookKey,cookValue,landKey,landValue,rehabKey,rehabValue,childSchlKey,childSchlValue,freeRemKey,freeRemValue,govtScmsKey,govtSchmsValue,attnEduKey,attnEduValue;
+    private List<KeyValue> houseownList,cookList,landList,rehabList,childSchlList,freeRemList,govtSchmsList,attnEduList;
+    private ArrayAdapter<KeyValue>ho,ck,ld,rb,cs,fr,gs,ae;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,14 +148,36 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
         he = new ArrayAdapter(mContext, R.layout.spinner_item, houseList);
 
         houseOwnership = (Spinner) findViewById(R.id.houseOwrnership);
-        cookingBy = (Spinner) findViewById(R.id.cookingBy);
-        landOwned = (Spinner) findViewById(R.id.landOwned);
-        rehabBenefit = (Spinner) findViewById(R.id.rehabBeneficial);
-        childStartedSchool = (Spinner) findViewById(R.id.childStartedSchool);
-        freeRemedialCoaching = (Spinner) findViewById(R.id.gotRemedialCoach);
-        awarenessAbtGovtSchms = (Spinner) findViewById(R.id.freeMedicalCare);
-        moreAttnChildEdu = (Spinner) findViewById(R.id.atnOnChildEdu);
+        houseownList = new ArrayList();
+        ho = new ArrayAdapter(mContext, R.layout.spinner_item, houseownList);
 
+        cookingBy = (Spinner) findViewById(R.id.cookingBy);
+        cookList = new ArrayList();
+        ck = new ArrayAdapter(mContext, R.layout.spinner_item, cookList);
+
+        landOwned = (Spinner) findViewById(R.id.landOwned);
+        landList = new ArrayList();
+        ld = new ArrayAdapter(mContext, R.layout.spinner_item, landList);
+
+        rehabBenefit = (Spinner) findViewById(R.id.rehabBeneficial);
+        rehabList = new ArrayList();
+        rb = new ArrayAdapter(mContext, R.layout.spinner_item, rehabList);
+
+        childStartedSchool = (Spinner) findViewById(R.id.childStartedSchool);
+        childSchlList = new ArrayList();
+        cs = new ArrayAdapter(mContext, R.layout.spinner_item, childSchlList);
+
+        freeRemedialCoaching = (Spinner) findViewById(R.id.gotRemedialCoach);
+        freeRemList = new ArrayList();
+        fr = new ArrayAdapter(mContext, R.layout.spinner_item, freeRemList);
+
+        awarenessAbtGovtSchms = (Spinner) findViewById(R.id.freeMedicalCare);
+        govtSchmsList = new ArrayList();
+        gs = new ArrayAdapter(mContext, R.layout.spinner_item, govtSchmsList);
+
+        moreAttnChildEdu = (Spinner) findViewById(R.id.atnOnChildEdu);
+        attnEduList = new ArrayList();
+        ae = new ArrayAdapter(mContext, R.layout.spinner_item, attnEduList);
     }
 
     private void initCallback(){
@@ -253,13 +278,68 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
 
             String wtList = spinnerData.getString("waterSourceType");
             // Log.d("State", statelist.toString().trim());
-            JSONArray water = new JSONArray(yNList.toString());
+            JSONArray water = new JSONArray(wtList.toString());
             for (int i = 0; i < water.length(); i++) {
                 JSONObject waterdata = water.getJSONObject(i);
                 waterKey = waterdata.getString("key");
                 waterName = waterdata.getString("value");
                 waterList.add(new KeyValue(waterKey, waterName));
                 wt.notifyDataSetChanged();
+            }
+
+            String ttList = spinnerData.getString("toiletType");
+            // Log.d("State", statelist.toString().trim());
+            JSONArray toilt = new JSONArray(ttList.toString());
+            for (int i = 0; i < toilt.length(); i++) {
+                JSONObject toiletdata = toilt.getJSONObject(i);
+                toiletKey = toiletdata.getString("key");
+                toiletValue = toiletdata.getString("value");
+                toiletList.add(new KeyValue(toiletKey, toiletValue));
+                tt.notifyDataSetChanged();
+            }
+
+            String hhList = spinnerData.getString("healthCareType");
+            // Log.d("State", statelist.toString().trim());
+            JSONArray healcre = new JSONArray(hhList.toString());
+            for (int i = 0; i < healcre.length(); i++) {
+                JSONObject healthdata = healcre.getJSONObject(i);
+                healthKey = healthdata.getString("key");
+                healthValue = healthdata.getString("value");
+                healthList.add(new KeyValue(healthKey, healthValue));
+                hh.notifyDataSetChanged();
+            }
+
+            String awList = spinnerData.getString("YNXZ");
+            // Log.d("State", statelist.toString().trim());
+            JSONArray ashwrker = new JSONArray(awList.toString());
+            for (int i = 0; i < ashwrker.length(); i++) {
+                JSONObject ashadata = ashwrker.getJSONObject(i);
+                ashaWrkKey = ashadata.getString("key");
+                ashaWrkValue = ashadata.getString("value");
+                ashaWorkList.add(new KeyValue(ashaWrkKey, ashaWrkValue));
+                aw.notifyDataSetChanged();
+            }
+
+            String fdList = spinnerData.getString("YNX");
+            // Log.d("State", statelist.toString().trim());
+            JSONArray foodfrmanwdi = new JSONArray(fdList.toString());
+            for (int i = 0; i < foodfrmanwdi.length(); i++) {
+                JSONObject fooddata = foodfrmanwdi.getJSONObject(i);
+                foodKey = fooddata.getString("key");
+                foodValue = fooddata.getString("value");
+                foodList.add(new KeyValue(foodKey, foodValue));
+                fd.notifyDataSetChanged();
+            }
+
+            String heList = spinnerData.getString("houseBuildingType");
+            // Log.d("State", statelist.toString().trim());
+            JSONArray housetype = new JSONArray(heList.toString());
+            for (int i = 0; i < housetype.length(); i++) {
+                JSONObject housedata = housetype.getJSONObject(i);
+                houseKey = housedata.getString("key");
+                houseValue = housedata.getString("value");
+                houseList.add(new KeyValue(houseKey, houseValue));
+                he.notifyDataSetChanged();
             }
 
 
