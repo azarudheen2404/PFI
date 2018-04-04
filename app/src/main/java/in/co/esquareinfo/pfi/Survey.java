@@ -78,22 +78,54 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
 
             txtToilet = toiletList.get(toilet.getSelectedItemPosition()).getRationId();
 
-        }else if (parent == electricity) {
+        }else if (parent == healthCare) {
 
-            txtElectricity = ynList.get(electricity.getSelectedItemPosition()).getRationId();
-            Log.d("electricity", String.valueOf(txtElectricity));
-        }else if (parent == electricity) {
+            txtHealthCare = healthList.get(healthCare.getSelectedItemPosition()).getRationId();
 
-            txtElectricity = ynList.get(electricity.getSelectedItemPosition()).getRationId();
-            Log.d("electricity", String.valueOf(txtElectricity));
-        }else if (parent == electricity) {
+        }else if (parent == ashaWorker) {
 
-            txtElectricity = ynList.get(electricity.getSelectedItemPosition()).getRationId();
-            Log.d("electricity", String.valueOf(txtElectricity));
-        }else if (parent == electricity) {
+            txtAshaWorker = ashaWorkList.get(ashaWorker.getSelectedItemPosition()).getRationId();
 
-            txtElectricity = ynList.get(electricity.getSelectedItemPosition()).getRationId();
-            Log.d("electricity", String.valueOf(txtElectricity));
+        }else if (parent == foodFromAnganwadi) {
+
+            txtFoodFromAnganwadi = foodList.get(foodFromAnganwadi.getSelectedItemPosition()).getRationId();
+
+        }else if (parent == houseType) {
+
+            txtHouseType = houseList.get(houseType.getSelectedItemPosition()).getRationId();
+
+        }else if (parent == houseOwnership) {
+
+            txtHouseOwnership = houseownList.get(houseOwnership.getSelectedItemPosition()).getRationId();
+
+        }else if (parent == cookingBy) {
+
+            txtCookingBy = cookList.get(cookingBy.getSelectedItemPosition()).getRationId();
+
+        }else if (parent == landOwned) {
+
+            txtLandOwned = landList.get(landOwned.getSelectedItemPosition()).getRationId();
+
+        }else if (parent == rehabBenefit) {
+
+            txtRehabBenefit = rehabList.get(rehabBenefit.getSelectedItemPosition()).getRationId();
+
+        }else if (parent == childStartedSchool) {
+
+            txtChildStartedSchool = childSchlList.get(childStartedSchool.getSelectedItemPosition()).getRationId();
+
+        }else if (parent == freeRemedialCoaching) {
+
+            txtFreeRemedialCoaching = freeRemList.get(freeRemedialCoaching.getSelectedItemPosition()).getRationId();
+
+        }else if (parent == awarenessAbtGovtSchms) {
+
+            txtAwarenessAbtGovtSchms = govtSchmsList.get(awarenessAbtGovtSchms.getSelectedItemPosition()).getRationId();
+
+        }else if (parent == moreAttnChildEdu) {
+
+            txtMoreAttnChildEdu = attnEduList.get(moreAttnChildEdu.getSelectedItemPosition()).getRationId();
+
         }
     }
 
@@ -191,6 +223,14 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
         ashaWorker.setOnItemSelectedListener(this);
         foodFromAnganwadi.setOnItemSelectedListener(this);
         houseType.setOnItemSelectedListener(this);
+        houseOwnership.setOnItemSelectedListener(this);
+        cookingBy.setOnItemSelectedListener(this);
+        landOwned.setOnItemSelectedListener(this);
+        rehabBenefit.setOnItemSelectedListener(this);
+        childStartedSchool.setOnItemSelectedListener(this);
+        freeRemedialCoaching.setOnItemSelectedListener(this);
+        awarenessAbtGovtSchms.setOnItemSelectedListener(this);
+        moreAttnChildEdu.setOnItemSelectedListener(this);
 
     }
 
@@ -221,6 +261,30 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
 
         he.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         houseType.setAdapter(he);
+
+        ho.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        houseOwnership.setAdapter(ho);
+
+        ck.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cookingBy.setAdapter(ck);
+
+        ld.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        landOwned.setAdapter(ld);
+
+        rb.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        rehabBenefit.setAdapter(rb);
+
+        cs.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        childStartedSchool.setAdapter(cs);
+
+        fr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        freeRemedialCoaching.setAdapter(fr);
+
+        gs.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        awarenessAbtGovtSchms.setAdapter(gs);
+
+        ae.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        moreAttnChildEdu.setAdapter(ae);
     }
 
     private void villageDetails(){
@@ -274,6 +338,16 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
                 valueYN = electricitydata.getString("value");
                 ynList.add(new KeyValue(keyYN, valueYN));
                 yn.notifyDataSetChanged();
+                landList.add(new KeyValue(keyYN, valueYN));
+                ld.notifyDataSetChanged();
+                childSchlList.add(new KeyValue(keyYN, valueYN));
+                cs.notifyDataSetChanged();
+                freeRemList.add(new KeyValue(keyYN, valueYN));
+                fr.notifyDataSetChanged();
+                govtSchmsList.add(new KeyValue(keyYN, valueYN));
+                gs.notifyDataSetChanged();
+                attnEduList.add(new KeyValue(keyYN, valueYN));
+                ae.notifyDataSetChanged();
             }
 
             String wtList = spinnerData.getString("waterSourceType");
@@ -341,6 +415,83 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
                 houseList.add(new KeyValue(houseKey, houseValue));
                 he.notifyDataSetChanged();
             }
+
+            /*String hoList = spinnerData.getString("houseBuildingType");
+            // Log.d("State", statelist.toString().trim());
+            JSONArray houseown = new JSONArray(heList.toString());
+            for (int i = 0; i < houseown.length(); i++) {
+                JSONObject houseowndata = houseown.getJSONObject(i);
+                houseOwnKey = houseowndata.getString("key");
+                houseOwnValue = houseowndata.getString("value");
+                houseownList.add(new KeyValue(houseOwnKey, houseOwnValue));
+                ho.notifyDataSetChanged();
+            }*/
+
+            String ckList = spinnerData.getString("cookingType");
+            // Log.d("State", statelist.toString().trim());
+            JSONArray cooktype = new JSONArray(ckList.toString());
+            for (int i = 0; i < cooktype.length(); i++) {
+                JSONObject cookdata = cooktype.getJSONObject(i);
+                cookKey = cookdata.getString("key");
+                cookValue = cookdata.getString("value");
+                cookList.add(new KeyValue(cookKey, cookValue));
+                ck.notifyDataSetChanged();
+            }
+
+            String ldList = spinnerData.getString("landOwned");
+            // Log.d("State", statelist.toString().trim());
+            JSONArray landOwned = new JSONArray(ldList.toString());
+            for (int i = 0; i < landOwned.length(); i++) {
+                JSONObject landdata = landOwned.getJSONObject(i);
+                landKey = landdata.getString("key");
+                landValue = landdata.getString("value");
+                landList.add(new KeyValue(landKey, landValue));
+                ld.notifyDataSetChanged();
+            }
+
+          /*  String rbList = spinnerData.getString("cookingType");
+            // Log.d("State", statelist.toString().trim());
+            JSONArray rehab = new JSONArray(rbList.toString());
+            for (int i = 0; i < rehab.length(); i++) {
+                JSONObject rehabdata = rehab.getJSONObject(i);
+                rehabKey = rehabdata.getString("key");
+                rehabValue = rehabdata.getString("value");
+                rehabList.add(new KeyValue(rehabKey, rehabValue));
+                rb.notifyDataSetChanged();
+            }*/
+
+           /* String csList = spinnerData.getString("cookingType");
+            // Log.d("State", statelist.toString().trim());
+            JSONArray childSchool = new JSONArray(csList.toString());
+            for (int i = 0; i < childSchool.length(); i++) {
+                JSONObject childschooldata = childSchool.getJSONObject(i);
+                childSchlKey = childschooldata.getString("key");
+                childSchlValue = childschooldata.getString("value");
+                childSchlList.add(new KeyValue(childSchlKey, childSchlValue));
+                cs.notifyDataSetChanged();
+            }*/
+
+           /* String frList = spinnerData.getString("cookingType");
+            // Log.d("State", statelist.toString().trim());
+            JSONArray freeRemadial = new JSONArray(frList.toString());
+            for (int i = 0; i < freeRemadial.length(); i++) {
+                JSONObject freeRemadialdata = freeRemadial.getJSONObject(i);
+                freeRemKey = freeRemadialdata.getString("key");
+                freeRemValue = freeRemadialdata.getString("value");
+                freeRemList.add(new KeyValue(freeRemKey, freeRemValue));
+                fr.notifyDataSetChanged();
+            }*/
+
+            /*String gsList = spinnerData.getString("cookingType");
+            // Log.d("State", statelist.toString().trim());
+            JSONArray govtScheme = new JSONArray(frList.toString());
+            for (int i = 0; i < govtScheme.length(); i++) {
+                JSONObject govtSchemedata = govtScheme.getJSONObject(i);
+                freeRemKey = govtSchemedata.getString("key");
+                freeRemValue = govtSchemedata.getString("value");
+                freeRemList.add(new KeyValue(freeRemKey, freeRemValue));
+                fr.notifyDataSetChanged();
+            }*/
 
 
         } catch (JSONException e) {
