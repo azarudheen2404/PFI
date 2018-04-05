@@ -19,20 +19,23 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.co.esquareinfo.pfi.app.Database;
+import in.co.esquareinfo.pfi.app.DatabaseHandler;
 import in.co.esquareinfo.pfi.app.KeyValue;
+import in.co.esquareinfo.pfi.app.MyPreference;
 import in.co.esquareinfo.pfi.app.Village;
 
-public class Survey extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class Survey extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private Context mContext;
     private EditText familyName,address,avgMonIncome,avgMonExpense,noVehicles,typeVehicles;
     private Spinner villageName,rationCard,electricity,drinkingWater,toilet,healthCare,ashaWorker,foodFromAnganwadi,houseType;
-    private Spinner houseOwnership,cookingBy,landOwned,rehabBenefit,childStartedSchool,freeRemedialCoaching,awarenessAbtGovtSchms,moreAttnChildEdu;
+    private Spinner houseOwnership,cookingBy,landOwned,rehabBenefit,childStartedSchool,freeRemedialCoaching,freeMedicalCare,awarenessAbtGovtSchms,moreAttnChildEdu;
     private Button save;
     private String txtFamilyName,txtAddress,txtAvgMonIncome,txtAvgMonExpense,txtNoVehicles,txtTypeVehicles;
-    private int txtVillageName;
+    private String txtVillageName;
     private String txtRationCard,txtElectricity,txtDrinkingWater,txtToilet,txtHealthCare,txtAshaWorker,txtFoodFromAnganwadi,txtHouseType;
-    private String txtHouseOwnership,txtCookingBy,txtLandOwned,txtRehabBenefit,txtChildStartedSchool,txtFreeRemedialCoaching,txtAwarenessAbtGovtSchms,txtMoreAttnChildEdu;
+    private String txtHouseOwnership,txtCookingBy,txtLandOwned,txtRehabBenefit,txtChildStartedSchool,txtFreeRemedialCoaching,txtFreeMedicalCare,txtAwarenessAbtGovtSchms,txtMoreAttnChildEdu;
     private String villName,villId;
     private List<Village> villageList;
     private ArrayAdapter<Village> vl;
@@ -40,8 +43,11 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
     private List<KeyValue> rationList,ynList,waterList,toiletList,healthList,ashaWorkList,foodList,houseList;
     private ArrayAdapter<KeyValue> rc,yn,wt,tt,hh,aw,fd,he;
     private String houseOwnKey,houseOwnValue,cookKey,cookValue,landKey,landValue,rehabKey,rehabValue,childSchlKey,childSchlValue,freeRemKey,freeRemValue,govtScmsKey,govtSchmsValue,attnEduKey,attnEduValue;
-    private List<KeyValue> houseownList,cookList,landList,rehabList,childSchlList,freeRemList,govtSchmsList,attnEduList;
-    private ArrayAdapter<KeyValue>ho,ck,ld,rb,cs,fr,gs,ae;
+    private List<KeyValue> houseownList,cookList,landList,rehabList,childSchlList,freeRemList,freeMedicalList,govtSchmsList,attnEduList;
+    private ArrayAdapter<KeyValue>ho,ck,ld,rb,cs,fr,fm,gs,ae;
+
+    DatabaseHandler databaseHandler;
+    MyPreference myPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +66,7 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
 
         if (parent == villageName) {
 
-            txtVillageName = Integer.parseInt((villageList.get(villageName.getSelectedItemPosition())).getVillageId());
+            txtVillageName = (villageList.get(villageName.getSelectedItemPosition())).getVillageId();
             Log.d("blockkkk", String.valueOf(txtVillageName));
         }else if (parent == rationCard) {
 
@@ -96,7 +102,11 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
 
         }else if (parent == houseOwnership) {
 
-            txtHouseOwnership = houseownList.get(houseOwnership.getSelectedItemPosition()).getRationId();
+            if (parent.getItemAtPosition(position).equals("own")) {
+                txtHouseOwnership = "O";
+            }else if (parent.getItemAtPosition(position).equals("rent")) {
+                txtHouseOwnership = "R";
+            }
 
         }else if (parent == cookingBy) {
 
@@ -118,6 +128,10 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
 
             txtFreeRemedialCoaching = freeRemList.get(freeRemedialCoaching.getSelectedItemPosition()).getRationId();
 
+        }else if (parent == freeMedicalCare) {
+
+            txtFreeMedicalCare = freeMedicalList.get(freeMedicalCare.getSelectedItemPosition()).getRationId();
+
         }else if (parent == awarenessAbtGovtSchms) {
 
             txtAwarenessAbtGovtSchms = govtSchmsList.get(awarenessAbtGovtSchms.getSelectedItemPosition()).getRationId();
@@ -135,6 +149,13 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
     }
 
     private void initObjects(){
+        databaseHandler = new DatabaseHandler(this);
+        myPreference = new MyPreference(this);
+        int id = myPreference.getId();
+        if (id == -1) {
+            myPreference.setId(1);
+            databaseHandler.addSurvey(myPreference.getId());
+        }
         mContext = this;
         familyName = (EditText)findViewById(R.id.familyName);
         address = (EditText)findViewById(R.id.address);
@@ -180,8 +201,17 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
         he = new ArrayAdapter(mContext, R.layout.spinner_item, houseList);
 
         houseOwnership = (Spinner) findViewById(R.id.houseOwrnership);
-        houseownList = new ArrayList();
-        ho = new ArrayAdapter(mContext, R.layout.spinner_item, houseownList);
+        List<String> houseOwnlist = new ArrayList<String>();
+
+        houseOwnlist.add("own");
+        houseOwnlist.add("rent");
+        //Creating the ArrayAdapter instance having the consent list
+        ArrayAdapter statelist = new ArrayAdapter(Survey.this,R.layout.support_simple_spinner_dropdown_item,houseOwnlist);
+        statelist.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        houseOwnership.setAdapter(statelist);
+       /* houseownList = new ArrayList();
+        ho = new ArrayAdapter(mContext, R.layout.spinner_item, houseownList);*/
 
         cookingBy = (Spinner) findViewById(R.id.cookingBy);
         cookList = new ArrayList();
@@ -203,6 +233,10 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
         freeRemList = new ArrayList();
         fr = new ArrayAdapter(mContext, R.layout.spinner_item, freeRemList);
 
+        freeMedicalCare = (Spinner) findViewById(R.id.freeMedicalCare);
+        freeMedicalList = new ArrayList();
+        fm = new ArrayAdapter(mContext, R.layout.spinner_item, freeMedicalList);
+
         awarenessAbtGovtSchms = (Spinner) findViewById(R.id.freeMedicalCare);
         govtSchmsList = new ArrayList();
         gs = new ArrayAdapter(mContext, R.layout.spinner_item, govtSchmsList);
@@ -210,6 +244,8 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
         moreAttnChildEdu = (Spinner) findViewById(R.id.atnOnChildEdu);
         attnEduList = new ArrayList();
         ae = new ArrayAdapter(mContext, R.layout.spinner_item, attnEduList);
+
+        save = (Button)findViewById(R.id.submit);
     }
 
     private void initCallback(){
@@ -231,6 +267,7 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
         freeRemedialCoaching.setOnItemSelectedListener(this);
         awarenessAbtGovtSchms.setOnItemSelectedListener(this);
         moreAttnChildEdu.setOnItemSelectedListener(this);
+        save.setOnClickListener(this);
 
     }
 
@@ -262,8 +299,8 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
         he.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         houseType.setAdapter(he);
 
-        ho.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        houseOwnership.setAdapter(ho);
+       /* ho.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        houseOwnership.setAdapter(ho);*/
 
         ck.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cookingBy.setAdapter(ck);
@@ -279,6 +316,9 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
 
         fr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         freeRemedialCoaching.setAdapter(fr);
+
+        fm.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        freeMedicalCare.setAdapter(fm);
 
         gs.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         awarenessAbtGovtSchms.setAdapter(gs);
@@ -344,6 +384,8 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
                 cs.notifyDataSetChanged();
                 freeRemList.add(new KeyValue(keyYN, valueYN));
                 fr.notifyDataSetChanged();
+                freeMedicalList.add(new KeyValue(keyYN, valueYN));
+                fm.notifyDataSetChanged();
                 govtSchmsList.add(new KeyValue(keyYN, valueYN));
                 gs.notifyDataSetChanged();
                 attnEduList.add(new KeyValue(keyYN, valueYN));
@@ -416,17 +458,6 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
                 he.notifyDataSetChanged();
             }
 
-            /*String hoList = spinnerData.getString("houseBuildingType");
-            // Log.d("State", statelist.toString().trim());
-            JSONArray houseown = new JSONArray(heList.toString());
-            for (int i = 0; i < houseown.length(); i++) {
-                JSONObject houseowndata = houseown.getJSONObject(i);
-                houseOwnKey = houseowndata.getString("key");
-                houseOwnValue = houseowndata.getString("value");
-                houseownList.add(new KeyValue(houseOwnKey, houseOwnValue));
-                ho.notifyDataSetChanged();
-            }*/
-
             String ckList = spinnerData.getString("cookingType");
             // Log.d("State", statelist.toString().trim());
             JSONArray cooktype = new JSONArray(ckList.toString());
@@ -449,54 +480,48 @@ public class Survey extends AppCompatActivity implements AdapterView.OnItemSelec
                 ld.notifyDataSetChanged();
             }
 
-          /*  String rbList = spinnerData.getString("cookingType");
-            // Log.d("State", statelist.toString().trim());
-            JSONArray rehab = new JSONArray(rbList.toString());
-            for (int i = 0; i < rehab.length(); i++) {
-                JSONObject rehabdata = rehab.getJSONObject(i);
-                rehabKey = rehabdata.getString("key");
-                rehabValue = rehabdata.getString("value");
-                rehabList.add(new KeyValue(rehabKey, rehabValue));
-                rb.notifyDataSetChanged();
-            }*/
-
-           /* String csList = spinnerData.getString("cookingType");
-            // Log.d("State", statelist.toString().trim());
-            JSONArray childSchool = new JSONArray(csList.toString());
-            for (int i = 0; i < childSchool.length(); i++) {
-                JSONObject childschooldata = childSchool.getJSONObject(i);
-                childSchlKey = childschooldata.getString("key");
-                childSchlValue = childschooldata.getString("value");
-                childSchlList.add(new KeyValue(childSchlKey, childSchlValue));
-                cs.notifyDataSetChanged();
-            }*/
-
-           /* String frList = spinnerData.getString("cookingType");
-            // Log.d("State", statelist.toString().trim());
-            JSONArray freeRemadial = new JSONArray(frList.toString());
-            for (int i = 0; i < freeRemadial.length(); i++) {
-                JSONObject freeRemadialdata = freeRemadial.getJSONObject(i);
-                freeRemKey = freeRemadialdata.getString("key");
-                freeRemValue = freeRemadialdata.getString("value");
-                freeRemList.add(new KeyValue(freeRemKey, freeRemValue));
-                fr.notifyDataSetChanged();
-            }*/
-
-            /*String gsList = spinnerData.getString("cookingType");
-            // Log.d("State", statelist.toString().trim());
-            JSONArray govtScheme = new JSONArray(frList.toString());
-            for (int i = 0; i < govtScheme.length(); i++) {
-                JSONObject govtSchemedata = govtScheme.getJSONObject(i);
-                freeRemKey = govtSchemedata.getString("key");
-                freeRemValue = govtSchemedata.getString("value");
-                freeRemList.add(new KeyValue(freeRemKey, freeRemValue));
-                fr.notifyDataSetChanged();
-            }*/
-
-
         } catch (JSONException e) {
             e.printStackTrace();
 
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        txtFamilyName = familyName.getText().toString().trim();
+        txtAddress = address.getText().toString().trim();
+        txtAvgMonIncome = avgMonIncome.getText().toString().trim();
+        txtAvgMonExpense = avgMonExpense.getText().toString().trim();
+        txtNoVehicles = noVehicles.getText().toString().trim();
+        txtTypeVehicles = typeVehicles.getText().toString().trim();
+
+        List<Database> surveys = new ArrayList<>();
+        surveys.add(new Database("familyName", txtFamilyName.trim()));
+        surveys.add(new Database("address", txtAddress.trim()));
+        surveys.add(new Database("rationCard", txtRationCard.trim()));
+        surveys.add(new Database("electricity", txtElectricity.trim()));
+        surveys.add(new Database("avgMonthlyIncome", txtAvgMonIncome.trim()));
+        surveys.add(new Database("avgMonthlyExpense", txtAvgMonExpense.trim()));
+        surveys.add(new Database("drinkingWaterSource", txtDrinkingWater.trim()));
+        surveys.add(new Database("toilet", txtToilet.trim()));
+        surveys.add(new Database("healthCare", txtHealthCare.trim()));
+        surveys.add(new Database("ashaWorkerComing", txtAshaWorker.trim()));
+        surveys.add(new Database("foodGettingFromAnganwadi", txtFoodFromAnganwadi.trim()));
+        surveys.add(new Database("houseBuildingType", txtHouseType.trim()));
+        surveys.add(new Database("houseOwnership", txtHouseOwnership.trim()));
+        surveys.add(new Database("noOfVehicles", txtNoVehicles.trim()));
+        surveys.add(new Database("typeOfVehicles", txtTypeVehicles.trim()));
+        surveys.add(new Database("cookingBy", txtCookingBy.trim()));
+        surveys.add(new Database("landOwned", txtLandOwned.trim()));
+        surveys.add(new Database("isRehabBeneficial", txtRehabBenefit.trim()));
+        surveys.add(new Database("childStartedGoingSchool", txtChildStartedSchool.trim()));
+        surveys.add(new Database("gotFreeRemedialCoaching", txtFreeRemedialCoaching.trim()));
+        surveys.add(new Database("freeMedicalCare", txtFreeMedicalCare.trim()));
+        surveys.add(new Database("awarenessAbtGovtSchemes", txtAwarenessAbtGovtSchms.trim()));
+        surveys.add(new Database("moreAttentionOnChildEducation", txtMoreAttnChildEdu.trim()));
+        surveys.add(new Database("villageId", txtVillageName.trim()));
+        databaseHandler.updateSurvey(myPreference.getId(), surveys);
+
     }
 }
